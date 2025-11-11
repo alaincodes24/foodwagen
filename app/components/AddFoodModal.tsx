@@ -8,6 +8,7 @@ import Input from "./Input";
 type AddFoodModalProps = {
   isOpen: boolean;
   onClose: () => void;
+  initialValues?: typeof emptyFormValues;
 };
 
 const emptyFormValues = {
@@ -19,9 +20,9 @@ const emptyFormValues = {
   status: "",
 };
 
-const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose }) => {
+const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose, initialValues }) => {
   const { execute: createNewFood, loading: isCreating } = useAsyncCallback(createFood);
-  const [mealFormValues, setMealFormValues] = useState(emptyFormValues);
+  const [mealFormValues, setMealFormValues] = useState(initialValues || emptyFormValues);
 
   const [mealFormErrors, setMealFormErrors] = useState<Record<string, string>>({});
   const [isLiveValidation, setIsLiveValidation] = useState(false);
@@ -82,7 +83,7 @@ const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose }) => {
             className="w-full max-w-3xl rounded-xl shadow-xl bg-white py-18 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
           >
             <DialogTitle as="h3" className="text-3xl font-bold text-center text-primary">
-              Add a meal
+              {initialValues ? "Edit meal" : "Add a meal"}
             </DialogTitle>
             <form onSubmit={handleSubmit} className="flex flex-col max-w-xl mx-auto mt-5 gap-y-6">
               <div>
@@ -149,7 +150,7 @@ const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose }) => {
               </div>
 
               <div className="grid items-center grid-cols-2 gap-3 mt-2">
-                <Button type="submit">{isCreating ? "Creating..." : "Create"}</Button>
+                <Button type="submit">{isCreating ? "Saving..." : initialValues ? "Save Changes" : "Create"}</Button>
 
                 <Button
                   type="button"

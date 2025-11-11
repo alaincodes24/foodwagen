@@ -1,7 +1,10 @@
 import more from "@/public/images/More.png";
 import starIcon from "@/public/images/star.png";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Image from "next/image";
 import { FC } from "react";
+import { useAsyncCallback } from "react-async-hook";
+import { deleteFood } from "../../api/food";
 import { Food } from "../../types/food";
 
 type FeaturedMealCardProps = {
@@ -9,6 +12,8 @@ type FeaturedMealCardProps = {
 };
 
 const FeaturedMealCard: FC<FeaturedMealCardProps> = ({ food }) => {
+  const { execute, loading } = useAsyncCallback(deleteFood);
+
   return (
     <div className="max-w-[357px] flex flex-col gap-y-6">
       <div className="">
@@ -34,21 +39,43 @@ const FeaturedMealCard: FC<FeaturedMealCardProps> = ({ food }) => {
             />
           </div>
           <div>
-            <p className="text-black">{food.name}</p>
+            <p className="text-black line-clamp-1 max-w-40 overflow-hidden">{food.name}</p>
             <div className="flex gap-x-2">
               <Image src={starIcon} alt="Star Icon" className="" />
               <p className="text-primary">{food.rating}</p>
             </div>
           </div>
         </div>
-        <div>
-          <Image src={more} alt="More Icon" className="" />
-        </div>
+        <Menu>
+          <MenuButton className="h-fit">
+            <Image src={more} alt="More Icon" />
+          </MenuButton>
+          <MenuItems
+            transition
+            anchor="left start"
+            className="w-20 outline-none bg-white mt-5  z-10 origin-top-right rounded-xl border border-slate-200 p-1 text-sm/6 transition duration-100 ease-out [--anchor-gap:--spacing(1)]"
+          >
+            <MenuItem>
+              <button className="flex cursor-pointer w-full items-center rounded-lg px-3 py-1.5 hover:bg-primary/10">
+                Edit
+              </button>
+            </MenuItem>
+            <MenuItem>
+              <button
+                disabled={loading}
+                onClick={() => execute(food.id)}
+                className="group cursor-pointer text-accent flex w-full items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-accent/10"
+              >
+                {loading ? "Deleting..." : "Delete"}
+              </button>
+            </MenuItem>
+          </MenuItems>
+        </Menu>
       </div>
       <div>
         <button
           className={`py-2 px-4 rounded-2xl ${
-            food.open ? "bg-[#79b93c33] text-[#79b93c]" : "bg-primary text-[#f17228]"
+            food.open ? "bg-[#79b93c33] text-app-green" : "bg-primary text-[#f17228]"
           }`}
         >
           {food.open ? "Open" : "Closed"}
