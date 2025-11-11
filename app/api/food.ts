@@ -3,7 +3,7 @@ import { Food } from "../types/food";
 
 export const getFeaturedFood = async () => {
   try {
-    const response = await apiClient.get("/Food");
+    const response = await apiClient.get<Food[]>("/Food");
     return response.data;
   } catch (error) {
     console.error("Error during fetching food:", error);
