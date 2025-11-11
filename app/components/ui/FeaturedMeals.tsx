@@ -1,12 +1,12 @@
 import rightArrow from "@/public/images/right-arrow.png";
 import Image from "next/image";
+import { useSearchParams } from "next/navigation";
 import { useAsync } from "react-async-hook";
 import { getFeaturedFood, searchFoodByName } from "../../api/food";
 import Button from "../Button";
 import CenterContent from "../layout/CenterContent";
 import FeaturedMealCard from "./FeaturedMealCard";
 import FeaturedMealCardSkeleton from "./FeaturedMealSkeleton";
-import { useSearchParams } from "next/navigation";
 
 const FeaturedMeals = () => {
   const searchParams = useSearchParams();
