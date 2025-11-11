@@ -6,10 +6,21 @@ import pickupIcon from "@/public/images/pickup.png";
 import searchIcon from "@/public/images/meal-search.png";
 import findMealIcon from "@/public/images/meal-search.png";
 import { useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
 
 const HeroSection = () => {
 	const [mode, setMode] = useState<"delivery" | "pickup">("delivery");
 	const [searchedMeal, setSearchedMeal] = useState("");
+	const router = useRouter();
+	const pathname = usePathname();
+	const handleSearch = () => {
+		const q = searchedMeal.trim();
+		if (q) {
+			router.push(`${pathname}?name=${encodeURIComponent(q)}`);
+		} else {
+			router.push(pathname);
+		}
+	};
 	
 	return (
 		<section className="bg-primary  flex flex-col  items-center justify-center text-white">
@@ -54,12 +65,19 @@ const HeroSection = () => {
 										type="text"
 										value={searchedMeal}
 										onChange={(e) => setSearchedMeal(e.target.value)}
+										onKeyDown={(e) => {
+											if (e.key === "Enter") {
+												e.preventDefault();
+												handleSearch();
+											}
+										}}
 										placeholder="What do you like to eat today?"
 										className="w-full outline-none text-black placeholder:text-black/50 bg-transparent h-12 rounded-xl"
 									/>
 								</div>
 								<button
 									type="button"
+									onClick={handleSearch}
 									className="bg-[#ff7a50] hover:bg-[#ff6a3a] transition text-white h-[56px] px-6 rounded-lg flex items-center gap-x-2"
 								>
 									<Image src={findMealIcon} alt="Find Meal Icon" width={18} height={18} color="white" />
