@@ -11,7 +11,7 @@ const FeaturedMeals = () => {
   const { result, loading } = useAsync(getFeaturedFood, []);
 
   return (
-    <section className="flex flex-col items-center justify-center text-white">
+    <section className="flex flex-col items-center justify-center text-primary-light">
       <CenterContent className="w-full">
         <h2 className="mt-20 font-bold text-center text-black text-[43px] mb-22">Featured Meals</h2>
         <div className="grid grid-cols-4 gap-x-4 gap-y-16">
