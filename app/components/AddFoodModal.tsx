@@ -1,5 +1,7 @@
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/react";
 import { FC, useState } from "react";
+import { useAsyncCallback } from "react-async-hook";
+import { createFood } from "../api/food";
 import Button from "./Button";
 import Input from "./Input";
 
@@ -18,6 +20,7 @@ const emptyFormValues = {
 };
 
 const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose }) => {
+  const { execute: createNewFood, loading: isCreating } = useAsyncCallback(createFood);
   const [mealFormValues, setMealFormValues] = useState(emptyFormValues);
 
   const [mealFormErrors, setMealFormErrors] = useState<Record<string, string>>({});
@@ -35,11 +38,24 @@ const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose }) => {
     return errors;
   };
 
+  const handleClose = () => {
+    onClose();
+    setMealFormValues(emptyFormValues);
+    setMealFormErrors({});
+    setIsLiveValidation(false);
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const errors = validateForm(mealFormValues);
-    setMealFormErrors(errors);
-    setIsLiveValidation(true);
+    if (Object.keys(errors).length > 0) {
+      setMealFormErrors(errors);
+      setIsLiveValidation(true);
+      return;
+    }
+
+    createNewFood(mealFormValues);
+    handleClose();
   };
 
   const handleInputChange = (fieldName: string, value: string) => {
@@ -49,13 +65,6 @@ const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose }) => {
       const errors = validateForm(updatedValues, fieldName);
       setMealFormErrors({ ...mealFormErrors, [fieldName]: errors[fieldName] });
     }
-  };
-
-  const handleClose = () => {
-    onClose();
-    setMealFormValues(emptyFormValues);
-    setMealFormErrors({});
-    setIsLiveValidation(false);
   };
 
   return (
@@ -140,7 +149,7 @@ const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose }) => {
               </div>
 
               <div className="grid items-center grid-cols-2 gap-3 mt-2">
-                <Button type="submit">Save</Button>
+                <Button type="submit">{isCreating ? "Creating..." : "Create"}</Button>
 
                 <Button
                   type="button"

@@ -16,7 +16,7 @@ const FeaturedMealCard: FC<FeaturedMealCardProps> = ({ food }) => {
           <Image
             src={food.image}
             alt="Bow Lasagna"
-            className="rounded-2xl"
+            className="rounded-2xl object-cover w-[357px] h-[200px]"
             width={357}
             height={200}
           />
@@ -25,7 +25,13 @@ const FeaturedMealCard: FC<FeaturedMealCardProps> = ({ food }) => {
       <div className="flex justify-between">
         <div className="flex gap-x-3">
           <div>
-            <Image src={food.logo} alt="Bow Lasagna Logo" className="" width={64} height={64} />
+            <Image
+              src={food.logo}
+              alt="Bow Lasagna Logo"
+              className="w-16 h-16 object-cover"
+              width={64}
+              height={64}
+            />
           </div>
           <div>
             <p className="text-black">{food.name}</p>

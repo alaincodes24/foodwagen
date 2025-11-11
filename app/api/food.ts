@@ -11,7 +11,7 @@ export const getFeaturedFood = async () => {
   }
 };
 
-export const createFood = async (foodData: Omit<Food, "id">) => {
+export const createFood = async (foodData: unknown) => {
   try {
     const response = await apiClient.post("/Food", foodData);
     return response.data;
