@@ -1,36 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## FoodWagen
 
-## Getting Started
+FoodWagen is a Next.js + TypeScript web app for managing featured meals. Users can browse the catalog, open modals to add or edit dishes, and remove entries, all backed by the Food mock API.
 
-First, run the development server:
+### Requirements
+
+- Node.js 18+
+- npm (or pnpm/yarn/bun)
+
+### Setup
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Visit `http://localhost:3000` to view the site. Environment variables are not required for local development; the mock API base URL is defined in `app/api/food.ts`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Key Commands
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `npm run dev` – start the development server
+- `npm run lint` – run lint checks
+- `npm run test` – execute the test suite
 
-## Learn More
+### API Reference
 
-To learn more about Next.js, take a look at the following resources:
+All data is served from `https://6852821e0594059b23cdd834.mockapi.io/Food`. The app performs CRUD operations and supports filtering by name (`?name=<query>`).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Project Structure
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- `app/components` – reusable UI elements and modals
+- `app/store` – Zustand store for global state
+- `app/api` – fetch helpers that wrap the mock API
 
-## Deploy on Vercel
+### Deployment
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Deploy on Vercel (recommended) or any platform that supports Next.js. Ensure the production deployment is accessible over HTTPS before submission.
