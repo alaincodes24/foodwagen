@@ -19,33 +19,34 @@ const FeaturedMealCard: FC<FeaturedMealCardProps> = ({ food }) => {
   };
 
   return (
-    <div className="max-w-[357px] flex flex-col gap-y-6">
-      <div className="">
+    <div className="flex w-full flex-col gap-y-6">
+      <div className="w-full">
         {food.image && (
           <Image
             src={food.image}
-            alt="Bow Lasagna"
-            className="rounded-2xl object-cover w-[357px] h-[200px]"
+            alt={food.name}
+            className="h-52 w-full rounded-2xl object-cover md:h-[200px]"
             width={357}
             height={200}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
         )}
       </div>
-      <div className="flex justify-between">
+      <div className="flex items-start justify-between gap-x-4">
         <div className="flex gap-x-3">
-          <div>
+          <div className="shrink-0">
             <Image
               src={food.logo}
-              alt="Bow Lasagna Logo"
-              className="w-16 h-16 object-cover"
+              alt={`${food.name} Logo`}
+              className="h-16 w-16 object-cover"
               width={64}
               height={64}
             />
           </div>
-          <div>
-            <p className="text-black line-clamp-1 max-w-40 overflow-hidden">{food.name}</p>
-            <div className="flex gap-x-2">
-              <Image src={starIcon} alt="Star Icon" className="" />
+          <div className="min-w-0">
+            <p className="max-w-40 overflow-hidden text-black line-clamp-1">{food.name}</p>
+            <div className="flex items-center gap-x-2">
+              <Image src={starIcon} alt="Star Icon" className="h-4 w-4" />
               <p className="text-primary">{food.rating}</p>
             </div>
           </div>
