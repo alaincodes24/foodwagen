@@ -23,20 +23,20 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="flex flex-col items-center justify-center text-white bg-primary">
-      <CenterContent className="relative flex items-center w-full h-[628px]">
-        <div className="relative flex-1">
-          <h1 className="font-bold text-7xl">Are you starving?</h1>
-          <p className="mt-3 text-2xl">
+    <section className="flex flex-col items-center justify-center bg-primary text-white">
+      <CenterContent className="relative flex w-full flex-col items-center gap-12 py-16 lg:h-[628px] lg:flex-row lg:items-center lg:gap-0">
+        <div className="relative flex-1 text-center lg:text-left">
+          <h1 className="text-4xl font-bold leading-tight sm:text-5xl lg:text-7xl">Are you starving?</h1>
+          <p className="mt-4 text-lg sm:text-xl lg:text-2xl">
             Within a few clicks, find meals that are accessible near you
           </p>
-          <div className="py-6 mt-8 max-w-[856px] bg-primary-light rounded-2xl">
+          <div className="mt-8 w-full max-w-[856px] rounded-2xl bg-primary-light py-6">
             <div className="px-6">
-              <div className="inline-flex overflow-hidden rounded-lg gap-x-2 bg-white/10">
+              <div className="inline-flex gap-x-2 overflow-hidden rounded-lg bg-white/10">
                 <button
                   type="button"
                   onClick={() => setMode("delivery")}
-                  className={`px-6 py-3 flex items-center gap-x-2 text-lg rounded-lg transition ${
+                  className={`flex items-center gap-x-2 rounded-lg px-6 py-3 text-base sm:text-lg transition ${
                     mode === "delivery" ? "bg-[#fce3d6] text-[#f17228]" : "text-[#757575]"
                   }`}
                 >
@@ -46,7 +46,7 @@ const HeroSection = () => {
                 <button
                   type="button"
                   onClick={() => setMode("pickup")}
-                  className={`px-6 py-3 flex items-center gap-x-2 text-lg rounded-lg transition ${
+                  className={`flex items-center gap-x-2 rounded-lg px-6 py-3 text-base sm:text-lg transition ${
                     mode === "pickup" ? "bg-[#fce3d6] text-[#f17228]" : "text-[#757575]"
                   }`}
                 >
@@ -56,8 +56,8 @@ const HeroSection = () => {
               </div>
             </div>
             <div className="px-6 mt-6">
-              <div className="flex items-center pr-3 gap-x-4 rounded-2xl h-[72px]">
-                <div className="flex items-center flex-1 px-4 rounded-lg gap-x-3 bg-app-gray h-14">
+              <div className="flex flex-col items-stretch gap-4 pr-0 sm:flex-row sm:items-center sm:gap-4 sm:pr-3">
+                <div className="flex h-14 flex-1 items-center gap-x-3 rounded-lg bg-app-gray px-4">
                   <Image src={searchIcon} alt="Search Icon" width={24} height={24} />
                   <input
                     type="text"
@@ -70,13 +70,13 @@ const HeroSection = () => {
                       }
                     }}
                     placeholder="What do you like to eat today?"
-                    className="w-full h-12 text-black bg-transparent outline-none placeholder:text-black/50 rounded-xl"
+                    className="h-12 w-full rounded-xl bg-transparent text-black outline-none placeholder:text-black/50"
                   />
                 </div>
                 <button
                   type="button"
                   onClick={handleSearch}
-                  className="bg-[#ff7a50] hover:bg-[#ff6a3a] transition text-white h-14 px-6 rounded-lg flex items-center gap-x-2"
+                  className="flex h-14 w-full items-center justify-center gap-x-2 rounded-lg bg-[#ff7a50] px-6 text-base font-semibold transition hover:bg-[#ff6a3a] sm:w-auto sm:text-lg"
                 >
                   <Image
                     src={searchIcon}
@@ -85,7 +85,7 @@ const HeroSection = () => {
                     height={18}
                     color="white"
                   />
-                  <span className="font-semibold">Find Meal</span>
+                  <span>Find Meal</span>
                 </button>
               </div>
             </div>
@@ -94,7 +94,8 @@ const HeroSection = () => {
         <Image
           src={heroImage}
           alt="Hero image"
-          className="absolute object-contain h-[500px] -bottom-6 right-[60px]"
+          className="hidden h-[480px] max-w-none object-contain lg:absolute lg:-bottom-6 lg:right-[60px] lg:block xl:h-[500px]"
+          priority
         />
       </CenterContent>
     </section>

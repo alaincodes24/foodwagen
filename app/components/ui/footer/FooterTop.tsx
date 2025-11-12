@@ -62,20 +62,18 @@ const FooterTop = () => {
 					</div>
 				))}
 			</div>
-			<div className="flex w-full max-w-sm flex-col justify-between gap-10 lg:w-auto lg:max-w-[360px]">
-				<div>
-					<p className="text-xs font-semibold tracking-[0.35em] text-white/50 uppercase">
+			<div className="flex w-full max-w-sm flex-col justify-between lg:w-auto lg:max-w-[360px]">
+				<div className="space-y-6">
+					<p className="text-xs font-semibold uppercase tracking-[0.35em] text-white/50">
 						Follow us
 					</p>
-					<div className="mt-4 flex items-center gap-4">
+					<div className="flex items-center gap-4">
 						{socialLinks.map(({ name, href, Icon }) => (
 							<Link key={name} href={href} aria-label={name}>
-								<Image src={Icon} alt={name} className="w-4 h-4" />
+								<Image src={Icon} alt={name} className="h-4 w-4" />
 							</Link>
 						))}
 					</div>
-				</div>
-				<div className="space-y-4">
 					<p className="text-lg font-semibold text-white">
 						Receive exclusive offers in your mailbox
 					</p>
@@ -96,7 +94,7 @@ const FooterTop = () => {
 								className="h-12 w-full bg-transparent text-sm text-white outline-none placeholder:text-white/50"
 							/>
 						</div>
-            <Button className="rounded-lg">
+						<Button className="rounded-lg">
 							<p>Subscribe</p>
 						</Button>
 					</form>
