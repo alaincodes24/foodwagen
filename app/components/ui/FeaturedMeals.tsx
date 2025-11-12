@@ -1,3 +1,5 @@
+"use client";
+
 import rightArrow from "@/public/images/right-arrow.png";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
