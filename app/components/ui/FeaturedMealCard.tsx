@@ -3,8 +3,6 @@ import starIcon from "@/public/images/star.png";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import Image from "next/image";
 import { FC } from "react";
-import { useAsyncCallback } from "react-async-hook";
-import { deleteFood } from "../../api/food";
 import { useFoodStore } from "../../store/FoodStore";
 import { Food } from "../../types/food";
 
@@ -13,12 +11,11 @@ type FeaturedMealCardProps = {
 };
 
 const FeaturedMealCard: FC<FeaturedMealCardProps> = ({ food }) => {
-  const { execute, loading } = useAsyncCallback(deleteFood);
-  const { setSelectedFood, setIsEditModalOpen, setIsFoodStale, isFoodStale } = useFoodStore();
+  const { setSelectedFood, setIsEditModalOpen, setIsDeleteModalOpen } = useFoodStore();
 
   const handleDelete = async () => {
-    await execute(food.id);
-    setIsFoodStale(!isFoodStale);
+    setSelectedFood(food);
+    setIsDeleteModalOpen(true);
   };
 
   return (
@@ -75,11 +72,10 @@ const FeaturedMealCard: FC<FeaturedMealCardProps> = ({ food }) => {
             </MenuItem>
             <MenuItem>
               <button
-                disabled={loading}
                 onClick={() => handleDelete()}
                 className="group cursor-pointer text-accent flex w-full items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-accent/10"
               >
-                {loading ? "Deleting..." : "Delete"}
+                Delete
               </button>
             </MenuItem>
           </MenuItems>

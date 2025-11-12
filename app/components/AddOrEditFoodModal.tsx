@@ -135,8 +135,8 @@ const AddOrEditFoodModal: FC<AddOrEditFoodModalProps> = ({ isOpen, onClose }) =>
                   placeholder="Restaurant name"
                   type="text"
                   value={mealFormValues.restaurantName}
-                  onChange={(e) => handleInputChange("food_name", e.target.value)}
-                  error={mealFormErrors.food_name}
+                  onChange={(e) => handleInputChange("restaurantName", e.target.value)}
+                  error={mealFormErrors.restaurantName}
                 />
               </div>
               <div>

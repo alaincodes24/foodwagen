@@ -5,6 +5,7 @@ import { useAsync } from "react-async-hook";
 import { getFeaturedFood, searchFoodByName } from "../../api/food";
 import { useFoodStore } from "../../store/FoodStore";
 import Button from "../Button";
+import ConfirmFoodDeletionModal from "../ConfirmFoodDeletionModal";
 import CenterContent from "../layout/CenterContent";
 import FeaturedMealCard from "./FeaturedMealCard";
 import FeaturedMealCardSkeleton from "./FeaturedMealSkeleton";
@@ -38,6 +39,7 @@ const FeaturedMeals = () => {
             <Image src={rightArrow} alt="Right Arrow" className="" />
           </Button>
         </div>
+        <ConfirmFoodDeletionModal />
       </CenterContent>
     </section>
   );

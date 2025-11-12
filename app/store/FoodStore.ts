@@ -4,6 +4,7 @@ import { Food } from "../types/food";
 type FoodStore = {
   isFoodStale: boolean;
   isEditModalOpen: boolean;
+  isDeleteModalOpen: boolean;
   foods: Food[];
   selectedFood?: Food | null;
   setFoods: (foods: Food[]) => void;
@@ -12,12 +13,14 @@ type FoodStore = {
   setSelectedFood: (food: Food | null) => void;
   setIsEditModalOpen: (isOpen: boolean) => void;
   setIsFoodStale: (isStale: boolean) => void;
+  setIsDeleteModalOpen: (isOpen: boolean) => void;
 };
 
 export const useFoodStore = create<FoodStore>((set) => ({
   foods: [],
   selectedFood: null,
   isEditModalOpen: false,
+  isDeleteModalOpen: false,
   isFoodStale: false,
   setIsEditModalOpen: (isOpen: boolean) => set({ isEditModalOpen: isOpen }),
   setFoods: (foods: Food[]) => set({ foods }),
@@ -26,4 +29,5 @@ export const useFoodStore = create<FoodStore>((set) => ({
   removeFood: (id: string) =>
     set((state) => ({ foods: state.foods.filter((food) => food.id !== id) })),
   setIsFoodStale: (isStale: boolean) => set({ isFoodStale: isStale }),
+  setIsDeleteModalOpen: (isOpen: boolean) => set({ isDeleteModalOpen: isOpen }),
 }));
