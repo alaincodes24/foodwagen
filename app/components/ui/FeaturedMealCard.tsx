@@ -51,7 +51,7 @@ const FeaturedMealCard: FC<FeaturedMealCardProps> = ({ food }) => {
           </div>
         </div>
         <Menu>
-          <MenuButton className="h-fit">
+          <MenuButton className="inline-flex items-center justify-center h-fit p-2 -m-2 rounded-full cursor-pointer focus:outline-none">
             <Image src={more} alt="More Icon" />
           </MenuButton>
           <MenuItems

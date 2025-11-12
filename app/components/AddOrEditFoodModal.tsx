@@ -103,7 +103,7 @@ const AddOrEditFoodModal: FC<AddOrEditFoodModalProps> = ({ isOpen, onClose }) =>
                   name="name"
                   placeholder="Food name"
                   type="text"
-                  value={mealFormValues.name}
+                  value={mealFormValues.name ?? ""}
                   onChange={(e) => handleInputChange("name", e.target.value)}
                   error={mealFormErrors.name}
                 />
@@ -113,7 +113,7 @@ const AddOrEditFoodModal: FC<AddOrEditFoodModalProps> = ({ isOpen, onClose }) =>
                   name="rating"
                   placeholder="Food rating"
                   type="text"
-                  value={mealFormValues.rating}
+                  value={mealFormValues.rating ?? ""}
                   onChange={(e) => handleInputChange("rating", e.target.value)}
                   error={mealFormErrors.rating}
                 />
@@ -124,7 +124,7 @@ const AddOrEditFoodModal: FC<AddOrEditFoodModalProps> = ({ isOpen, onClose }) =>
                   name="image"
                   placeholder="Food image (link)"
                   type="text"
-                  value={mealFormValues.image}
+                  value={mealFormValues.image ?? ""}
                   onChange={(e) => handleInputChange("image", e.target.value)}
                   error={mealFormErrors.image}
                 />
@@ -134,7 +134,7 @@ const AddOrEditFoodModal: FC<AddOrEditFoodModalProps> = ({ isOpen, onClose }) =>
                   name="restaurantName"
                   placeholder="Restaurant name"
                   type="text"
-                  value={mealFormValues.restaurantName}
+                  value={mealFormValues.restaurantName ?? ""}
                   onChange={(e) => handleInputChange("restaurantName", e.target.value)}
                   error={mealFormErrors.restaurantName}
                 />
