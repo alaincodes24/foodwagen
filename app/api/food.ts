@@ -21,7 +21,7 @@ export const createFood = async (foodData: unknown) => {
   }
 };
 
-export const updateFood = async (id: string, foodData: Omit<Food, "id">) => {
+export const updateFood = async (id: string, foodData: unknown) => {
   try {
     const response = await apiClient.put(`/Food/${id}`, foodData);
     return response.data;

@@ -7,7 +7,7 @@ export type Food = {
   id: string;
   Price: `${number}`;
   image: string;
-  rating: number;
+  rating: string;
   restaurantName: string;
   status: string;
 };

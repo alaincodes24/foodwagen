@@ -12,6 +12,7 @@ const HeroSection = () => {
   const [searchedMeal, setSearchedMeal] = useState("");
   const router = useRouter();
   const pathname = usePathname();
+
   const handleSearch = () => {
     const q = searchedMeal.trim();
     if (q) {
@@ -56,7 +57,7 @@ const HeroSection = () => {
             </div>
             <div className="px-6 mt-6">
               <div className="flex items-center pr-3 gap-x-4 rounded-2xl h-[72px]">
-                <div className="flex items-center flex-1 px-4 rounded-lg gap-x-3 bg-app-gray h-[56px]">
+                <div className="flex items-center flex-1 px-4 rounded-lg gap-x-3 bg-app-gray h-14">
                   <Image src={searchIcon} alt="Search Icon" width={24} height={24} />
                   <input
                     type="text"

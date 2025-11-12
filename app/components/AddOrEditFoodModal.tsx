@@ -1,33 +1,35 @@
 import { Dialog, DialogBackdrop, DialogPanel, DialogTitle } from "@headlessui/react";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { useAsyncCallback } from "react-async-hook";
-import { createFood } from "../api/food";
+import { createFood, updateFood } from "../api/food";
+import { useFoodStore } from "../store/FoodStore";
+import { Food } from "../types/food";
 import Button from "./Button";
 import Input from "./Input";
 
-type AddFoodModalProps = {
+type AddOrEditFoodModalProps = {
   isOpen: boolean;
   onClose: () => void;
-  initialValues?: typeof emptyFormValues;
 };
 
 const emptyFormValues = {
   name: "",
   rating: "",
   image: "",
-  food_name: "",
+  restaurantName: "",
   logo: "",
   status: "",
 };
 
-const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose, initialValues }) => {
+const AddOrEditFoodModal: FC<AddOrEditFoodModalProps> = ({ isOpen, onClose }) => {
+  const { selectedFood, setIsFoodStale, isFoodStale } = useFoodStore();
   const { execute: createNewFood, loading: isCreating } = useAsyncCallback(createFood);
-  const [mealFormValues, setMealFormValues] = useState(initialValues || emptyFormValues);
-
+  const { execute: updateSelectedFood } = useAsyncCallback(updateFood);
+  const [mealFormValues, setMealFormValues] = useState<Partial<Food>>(emptyFormValues);
   const [mealFormErrors, setMealFormErrors] = useState<Record<string, string>>({});
   const [isLiveValidation, setIsLiveValidation] = useState(false);
 
-  const validateForm = (values: Record<string, string>, fieldName?: string) => {
+  const validateForm = (values: Record<string, unknown>, fieldName?: string) => {
     const errors: Record<string, string> = {};
     if (fieldName) {
       if (!values[fieldName]) errors[fieldName] = `${fieldName.replace("_", " ")} is required`;
@@ -46,7 +48,7 @@ const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose, initialValues })
     setIsLiveValidation(false);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const errors = validateForm(mealFormValues);
     if (Object.keys(errors).length > 0) {
@@ -54,8 +56,9 @@ const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose, initialValues })
       setIsLiveValidation(true);
       return;
     }
-
-    createNewFood(mealFormValues);
+    if (selectedFood) await updateSelectedFood(selectedFood.id, mealFormValues);
+    else await createNewFood(mealFormValues);
+    setIsFoodStale(!isFoodStale);
     handleClose();
   };
 
@@ -67,6 +70,15 @@ const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose, initialValues })
       setMealFormErrors({ ...mealFormErrors, [fieldName]: errors[fieldName] });
     }
   };
+
+  useEffect(() => {
+    if (selectedFood) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setMealFormValues(selectedFood);
+    } else {
+      setMealFormValues(emptyFormValues);
+    }
+  }, [selectedFood, isOpen]);
 
   return (
     <Dialog
@@ -83,7 +95,7 @@ const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose, initialValues })
             className="w-full max-w-3xl rounded-xl shadow-xl bg-white py-18 backdrop-blur-2xl duration-300 ease-out data-closed:transform-[scale(95%)] data-closed:opacity-0"
           >
             <DialogTitle as="h3" className="text-3xl font-bold text-center text-primary">
-              {initialValues ? "Edit meal" : "Add a meal"}
+              {selectedFood ? "Edit meal" : "Add a meal"}
             </DialogTitle>
             <form onSubmit={handleSubmit} className="flex flex-col max-w-xl mx-auto mt-5 gap-y-6">
               <div>
@@ -119,10 +131,10 @@ const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose, initialValues })
               </div>
               <div>
                 <Input
-                  name="food_name"
+                  name="restaurantName"
                   placeholder="Restaurant name"
                   type="text"
-                  value={mealFormValues.food_name}
+                  value={mealFormValues.restaurantName}
                   onChange={(e) => handleInputChange("food_name", e.target.value)}
                   error={mealFormErrors.food_name}
                 />
@@ -132,7 +144,7 @@ const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose, initialValues })
                   name="logo"
                   placeholder="Restaurant logo (link)"
                   type="text"
-                  value={mealFormValues.logo}
+                  value={mealFormValues.logo ?? ""}
                   onChange={(e) => handleInputChange("logo", e.target.value)}
                   error={mealFormErrors.logo}
                 />
@@ -143,14 +155,16 @@ const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose, initialValues })
                   name="status"
                   placeholder="Restaurant status (open/closed)"
                   type="text"
-                  value={mealFormValues.status}
+                  value={mealFormValues.status ?? ""}
                   onChange={(e) => handleInputChange("status", e.target.value)}
                   error={mealFormErrors.status}
                 />
               </div>
 
               <div className="grid items-center grid-cols-2 gap-3 mt-2">
-                <Button type="submit">{isCreating ? "Saving..." : initialValues ? "Save Changes" : "Create"}</Button>
+                <Button type="submit">
+                  {isCreating ? "Saving..." : selectedFood ? "Save Changes" : "Create"}
+                </Button>
 
                 <Button
                   type="button"
@@ -168,4 +182,5 @@ const AddFoodModal: FC<AddFoodModalProps> = ({ isOpen, onClose, initialValues })
     </Dialog>
   );
 };
-export default AddFoodModal;
+
+export default AddOrEditFoodModal;

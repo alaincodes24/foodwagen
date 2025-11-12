@@ -3,6 +3,7 @@ import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { useAsync } from "react-async-hook";
 import { getFeaturedFood, searchFoodByName } from "../../api/food";
+import { useFoodStore } from "../../store/FoodStore";
 import Button from "../Button";
 import CenterContent from "../layout/CenterContent";
 import FeaturedMealCard from "./FeaturedMealCard";
@@ -11,10 +12,11 @@ import FeaturedMealCardSkeleton from "./FeaturedMealSkeleton";
 const FeaturedMeals = () => {
   const searchParams = useSearchParams();
   const name = searchParams?.get("name")?.trim() || "";
+  const { isFoodStale } = useFoodStore();
 
   const { result, loading } = useAsync(
     () => (name ? searchFoodByName(name) : getFeaturedFood()),
-    [name]
+    [name, isFoodStale]
   );
 
   return (

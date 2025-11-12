@@ -5,6 +5,7 @@ import Image from "next/image";
 import { FC } from "react";
 import { useAsyncCallback } from "react-async-hook";
 import { deleteFood } from "../../api/food";
+import { useFoodStore } from "../../store/FoodStore";
 import { Food } from "../../types/food";
 
 type FeaturedMealCardProps = {
@@ -13,6 +14,12 @@ type FeaturedMealCardProps = {
 
 const FeaturedMealCard: FC<FeaturedMealCardProps> = ({ food }) => {
   const { execute, loading } = useAsyncCallback(deleteFood);
+  const { setSelectedFood, setIsEditModalOpen, setIsFoodStale, isFoodStale } = useFoodStore();
+
+  const handleDelete = async () => {
+    await execute(food.id);
+    setIsFoodStale(!isFoodStale);
+  };
 
   return (
     <div className="max-w-[357px] flex flex-col gap-y-6">
@@ -56,14 +63,20 @@ const FeaturedMealCard: FC<FeaturedMealCardProps> = ({ food }) => {
             className="w-20 outline-none bg-white mt-5  z-10 origin-top-right rounded-xl border border-slate-200 p-1 text-sm/6 transition duration-100 ease-out [--anchor-gap:--spacing(1)]"
           >
             <MenuItem>
-              <button className="flex cursor-pointer w-full items-center rounded-lg px-3 py-1.5 hover:bg-primary/10">
+              <button
+                className="flex cursor-pointer w-full items-center rounded-lg px-3 py-1.5 hover:bg-primary/10"
+                onClick={() => {
+                  setIsEditModalOpen(true);
+                  setSelectedFood(food);
+                }}
+              >
                 Edit
               </button>
             </MenuItem>
             <MenuItem>
               <button
                 disabled={loading}
-                onClick={() => execute(food.id)}
+                onClick={() => handleDelete()}
                 className="group cursor-pointer text-accent flex w-full items-center gap-2 rounded-lg px-3 py-1.5 hover:bg-accent/10"
               >
                 {loading ? "Deleting..." : "Delete"}
