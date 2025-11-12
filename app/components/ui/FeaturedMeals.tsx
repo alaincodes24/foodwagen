@@ -22,6 +22,8 @@ const FeaturedMeals = () => {
     [name, isFoodStale]
   );
 
+  const hasResults = Boolean(result?.length);
+
   return (
     <section className="flex flex-col items-center justify-center text-primary-light">
       <CenterContent className="w-full">
@@ -32,17 +34,27 @@ const FeaturedMeals = () => {
           {loading &&
             Array.from({ length: 8 }).map((_, index) => <FeaturedMealCardSkeleton key={index} />)}
 
-          {!loading &&
+          {!loading && hasResults &&
             result?.map((featuredMeal) => (
               <FeaturedMealCard key={featuredMeal.id} food={featuredMeal} />
             ))}
+
+          {!loading && !hasResults && (
+            <div className="col-span-full py-12 text-center text-lg text-black">
+              {name
+                ? `No meals found matching "${name}".`
+                : "No featured meals available right now."}
+            </div>
+          )}
         </div>
-        <div className="flex justify-center mb-20 mt-22">
-          <Button className="flex items-center px-12 py-5 gap-x-2">
-            <p>Load more</p>
-            <Image src={rightArrow} alt="Right Arrow" className="" />
-          </Button>
-        </div>
+        {hasResults && (
+          <div className="flex justify-center mb-20 mt-22">
+            <Button className="flex items-center px-12 py-5 gap-x-2">
+              <p>Load more</p>
+              <Image src={rightArrow} alt="Right Arrow" className="" />
+            </Button>
+          </div>
+        )}
         <ConfirmFoodDeletionModal />
       </CenterContent>
     </section>
